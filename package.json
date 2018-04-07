@@ -1,0 +1,24 @@
+{
+  "name": "botkeeperchallenge",
+  "version": "1.0.0",
+  "description": "Overview:  You need to build a NodeJS service to aggregate data from two different apis and then return it to the user. There is a products api and an inventory api, they have the following api endpoints:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KelseyNewman147/BotKeeperChallenge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KelseyNewman147/BotKeeperChallenge/issues"
+  },
+  "homepage": "https://github.com/KelseyNewman147/BotKeeperChallenge#readme",
+  "dependencies": {
+    "babel-register": "^6.26.0",
+    "es6-promise": "^4.2.4",
+    "isomorphic-fetch": "^2.2.1"
+  }
+}
