@@ -1,4 +1,4 @@
-import "isomorphic-fetch";import { fetchInventory } from "./api.mjs";import { fetchProducts } from "./api.mjs";
+import "isomorphic-fetch";import { fetchInventory, fetchProducts, fetchInventoryItem, fetchProduct } from "./api.mjs";
 
 var itemsArr = [];
 var productsArr = [];
@@ -26,32 +26,32 @@ var appRouter = function (app) {
                 price: productsArr[i].inventory
             });
         }
-        res.status(200).send(items);
+        res.status(200).send(item);
     })
 
     app.get("/products/:name", function (req,res) {
         var item;
         var name = req.params.name;
-    
+        fetchInventoryItem(name);
         var found = false;
-        for(var i = 0; i < itemsArr.length; i++) {
-            if (itemsArr[i].name == name) {
-                found = true;
-                break;
-            }
-        }
-        if (found) {
-            var inv = itemsArr.find(function(element) {
-                return element.name == name;
-            });
-            var prod = productsArr.find(function(element) {
-                return element.name == name;
-            });
-            item = {
-                name: inv.name,
-                price: prod.price,
-                inventory: inv.inventory
-            };
+        // for(var i = 0; i < itemsArr.length; i++) {
+        //     if (itemsArr[i].name == name) {
+        //         found = true;
+        //         break;
+        //     }
+        // }
+         if (found) {
+        //     var inv = itemsArr.find(function(element) {
+        //         return element.name == name;
+        //     });
+        //     var prod = productsArr.find(function(element) {
+        //         return element.name == name;
+        //     });
+        //     item = {
+        //         name: inv.name,
+        //         price: prod.price,
+        //         inventory: inv.inventory
+        //     };
     
             res.status(200).send(item);
         } else {
