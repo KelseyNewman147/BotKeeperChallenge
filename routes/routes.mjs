@@ -1,13 +1,15 @@
-import "isomorphic-fetch";import { fetchInventory, fetchProducts, fetchInventoryItem, fetchProduct } from "./api.mjs";
+import "isomorphic-fetch";import "superagent";import { fetchInventory, fetchProducts, fetchInventoryItem, fetchProduct } from "./api.mjs";
 
 var itemsArr = [];
 var productsArr = [];
-fetchInventory().then(inventoryJSON => {
-    itemsArr = JSON.parse(inventoryJSON);
+fetchInventory().then(inventory => {
+    console.log("inventory:" + JSON.stringify(inventory));
+    itemsArr = inventory.inventory;
     return itemsArr;
 });
-fetchProducts().then(productsJSON => {
-    var productsArr = JSON.parse(productsJSON);
+fetchProducts().then(products => {
+    console.log("products:" + JSON.stringify(products));
+    productsArr= products.products;
     return productsArr;
 });
 
@@ -22,11 +24,10 @@ var appRouter = function (app) {
         for(var i = 0; i < count; i++) {
             items.push({
                 name: itemsArr[i].name,
-                inventory: itemsArr[i].inventory,
-                price: productsArr[i].inventory
+                inventory: itemsArr[i].inventory
             });
         }
-        res.status(200).send(item);
+        res.status(200).send(items);
     })
 
     app.get("/products/:name", function (req,res) {
