@@ -9,7 +9,7 @@ fetchInventory().then(inventory => {
 });
 fetchProducts().then(products => {
     console.log("products:" + JSON.stringify(products));
-    productsArr= products.products;
+    productsArr = products.map(p => p.price);
     return productsArr;
 });
 
@@ -24,7 +24,8 @@ var appRouter = function (app) {
         for(var i = 0; i < count; i++) {
             items.push({
                 name: itemsArr[i].name,
-                inventory: itemsArr[i].inventory
+                inventory: itemsArr[i].inventory,
+                price: productsArr[i]
             });
         }
         res.status(200).send(items);
