@@ -25,22 +25,26 @@ export async function fetchProducts() {
     }
 }
 
-export function fetchInventoryItem(name) {
-    url = new URL("http://autumn-resonance-1298.getsandbox.com/inventory/"); 
-        url.search = new URLSearchParams(name)
-    return fetch(url)
-        .then(response => response.json())
-        .then(function (inventory) {
-            console.log(inventory);
-        });
+export async function fetchInventoryItem(name) {
+    try {
+        return await superagent.get('http://autumn-resonance-1298.getsandbox.com/inventory/' + name)
+            .then(function (inventoryItem) {
+                console.log(inventoryItem.body);
+                return inventoryItem.body;
+            });
+    } catch (error) {
+        return error;
+    }
 }
 
-export function fetchProduct(name) {
-    var url = new URL("http://autumn-resonance-1298.getsandbox.com/products" + name);
-        //url.search = new URLSearchParams(name)
-    return fetch(url)
-        .then(response => response.json())
-        .then(function (products) {
-            console.log(products);
-        });
+export async function fetchProduct(name) {
+    try {
+        return await superagent.get('http://autumn-resonance-1298.getsandbox.com/products/' + name)
+            .then(function (product) {
+                console.log(product.body);
+                return product.body;
+            });
+    } catch (error) {
+        return error;
+    }
 }

@@ -2,6 +2,7 @@ import "isomorphic-fetch";import "superagent";import { fetchInventory, fetchProd
 
 var itemsArr = [];
 var productsArr = [];
+
 fetchInventory().then(inventory => {
     console.log("inventory:" + JSON.stringify(inventory));
     itemsArr = inventory.inventory;
@@ -12,6 +13,7 @@ fetchProducts().then(products => {
     productsArr = products.map(p => p.price);
     return productsArr;
 });
+
 
 var appRouter = function (app) {
     app.get("/", function(req,res) {
@@ -32,30 +34,31 @@ var appRouter = function (app) {
     })
 
     app.get("/products/:name", function (req,res) {
-        var item;
         var name = req.params.name;
-        fetchInventoryItem(name);
+        var item = [];
+        var product = [];
         var found = false;
-        // for(var i = 0; i < itemsArr.length; i++) {
-        //     if (itemsArr[i].name == name) {
-        //         found = true;
-        //         break;
-        //     }
-        // }
-         if (found) {
-        //     var inv = itemsArr.find(function(element) {
-        //         return element.name == name;
-        //     });
-        //     var prod = productsArr.find(function(element) {
-        //         return element.name == name;
-        //     });
-        //     item = {
-        //         name: inv.name,
-        //         price: prod.price,
-        //         inventory: inv.inventory
-        //     };
-    
-            res.status(200).send(item);
+        var singleItem;
+        for(var i = 0; i < itemsArr.length; i++) {
+            if (itemsArr[i].name == name) {
+                found = true;
+                break;
+            }
+        }
+        if (found) {
+        fetchInventoryItem(name).then(invItem => {
+            return fetchProduct(name).then(prod => {
+                singleItem = {
+                    name: invItem.name,
+                    price: prod.price,
+                    inventory: invItem.inventory
+                }; 
+                return singleItem
+            });  
+        }).then(singleItem => {
+            console.log("single item:" + JSON.stringify(singleItem));
+            res.status(200).send(singleItem); 
+        });     
         } else {
             res.status(400).send('That product does not exist!');
 
